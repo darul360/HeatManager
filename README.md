@@ -33,15 +33,20 @@ npx playwright install msedge
 
 ### 3. Local Setup
 To run the dashboard locally:
-1. Launch `run_server.bat` (starts the server in background mode).
+1. Start the local server:
+   ```bash
+   npm run serve
+   ```
 2. Open `http://localhost` in your browser.
+
+*Note: The server must be running to enable the "Refresh Data" functionality on the dashboard.*
 
 ## 📁 Project Structure
 
 - `/src`: TypeScript source code (Scraper, Express Server, Firebase logic).
 - `/public`: Frontend dashboard assets (HTML/JS/CSS).
-- `run_server.bat`: Auto-restart startup script with browser launcher.
-- `stop_server.bat`: Utility to safely kill background processes.
+- `src/index.ts`: The main scraper script.
+- `src/server.ts`: The Express server for local access and API proxying.
 
 ## 🔒 Security
 
