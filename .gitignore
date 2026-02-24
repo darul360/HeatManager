@@ -1,0 +1,7 @@
+node_modules/
+.env
+.firebase/
+consumption_data.json
+rent_config.json
+dist/
+*.log

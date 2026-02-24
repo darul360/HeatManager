@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeatManager Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent-heat: #f43f5e;
+            --accent-hot-water: #fbbf24;
+            --accent-cold-water: #0ea5e9;
+            --accent-rent: #10b981;
+            --gradient-heat: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            --gradient-hot: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            --gradient-cold: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .controls {
+            position: relative;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        button {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #f1f5f9;
+        }
+
+        .year-btn.active {
+            border-color: #6366f1;
+            color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .action-btn {
+            background: #6366f1;
+            color: white;
+            border: none;
+        }
+
+        .action-btn:hover {
+            background: #4f46e5;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(to right, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.05em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        #login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="login-overlay">
+            <div class="card" style="width:100%; max-width:400px; text-align:center;">
+                <h2>HeatManager</h2>
+                <form id="login-form">
+                    <input type="email" id="login-email" required placeholder="Email"
+                        style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+                    <input type="password" id="login-password" required placeholder="Hasło"
+                        style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+                    <button class="action-btn" type="submit" style="width:100%;">Zaloguj się</button>
+                    <p id="login-error" style="color:red; margin-top:1rem;"></p>
+                </form>
+            </div>
+        </div>
+
+        <header>
+            <div class="controls">
+                <button class="year-btn active" onclick="setYear('2025')" id="btn-2025">2025</button>
+                <button class="year-btn" onclick="setYear('2026')" id="btn-2026">2026</button>
+                <button class="action-btn" onclick="refreshData()" id="btn-refresh"
+                    style="display:none">Odśwież</button>
+                <button onclick="logout()">Wyloguj</button>
+            </div>
+            <h1 id="page-title">Moje Zużycie 2025</h1>
+        </header>
+
+        <div id="dashboard" class="grid" style="display:none;">
+            <div class="card" onclick="showDetails('HEAT')">
+                <h2>Ciepło</h2>
+                <div class="chart-container"><canvas id="chart-heat"></canvas></div>
+            </div>
+            <div class="card" onclick="showDetails('HOT_WATER')">
+                <h2>Ciepła Woda</h2>
+                <div class="chart-container"><canvas id="chart-hot"></canvas></div>
+            </div>
+            <div class="card" onclick="showDetails('COLD_WATER')">
+                <h2>Zimna Woda</h2>
+                <div class="chart-container"><canvas id="chart-cold"></canvas></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        async function init() {
+            const res = await fetch('/api/config');
+            const config = await res.json();
+            const app = initializeApp(config);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            if (['localhost', '127.0.0.1', 'heatmanager.darul'].includes(window.location.hostname)) {
+                document.getElementById('btn-refresh').style.display = 'inline-block';
+            }
+
+            onAuthStateChanged(auth, user => {
+                if (user) {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'grid';
+                } else {
+                    document.getElementById('login-overlay').style.display = 'flex';
+                }
+            });
+        }
+        init();
+    </script>
+</body>
+
+</html>
