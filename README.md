@@ -2,6 +2,8 @@
 
 A professional energy monitoring system designed to bridge data from **IstaConnect** with a modern, mobile-accessible **Firebase** dashboard.
 
+![HeatManager Dashboard Preview](prtsc.png)
+
 ## 🚀 Key Features
 
 - **Automated Scraper**: Powered by Playwright (with Stealth Plugin) to securely fetch consumption data for Heat, Hot Water, and Cold Water.

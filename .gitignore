@@ -5,3 +5,4 @@ consumption_data.json
 rent_config.json
 dist/
 *.log
+package-lock.json
