@@ -1,51 +1,51 @@
 # 🌡️ HeatManager: Hybrid Energy Dashboard
 
-Profesjonalny system do monitorowania zużycia energii cieplnej oraz wody, integrujący dane z serwisu **IstaConnect** z nowoczesnym dashboardem w chmurze (**Firebase**).
+A professional energy monitoring system designed to bridge data from **IstaConnect** with a modern, mobile-accessible **Firebase** dashboard.
 
-## 🚀 Główne Funkcje
+## 🚀 Key Features
 
-- **Automatyczny Scraper**: Wykorzystuje Playwright (z Stealth Plugin), aby bezpiecznie pobierać dane o zużyciu ciepła, ciepłej i zimnej wody.
-- **Hybrydowa Architektura**:
-  - **Chmura (Firebase)**: Bezpieczne przechowywanie danych i dostęp do dashboardu z dowolnego urządzenia (telefon, tablet).
-  - **Local Server**: Lokalny proces na Twoim PC, który zarządza odświeżaniem danych i zapewnia prywatność kluczy dostępowych.
-- **Inteligentne Wykresy**: Wizualizacja trendów rocznych (2025/2026) za pomocą Chart.js.
-- **Kalkulator Czynszu**: Automatyczne wyliczanie balansu opłat na podstawie rzeczywistego zużycia i zdefiniowanych stawek.
+- **Automated Scraper**: Powered by Playwright (with Stealth Plugin) to securely fetch consumption data for Heat, Hot Water, and Cold Water.
+- **Hybrid Architecture**:
+  - **Cloud (Firebase)**: Secure data storage and global dashboard access from any device.
+  - **Local Server**: A lightweight background process on your PC that handles data refreshes, keeping your credentials private and secure.
+- **Dynamic Visualizations**: Yearly trends (2025/2026) visualized using Chart.js.
+- **Rent Calculator**: Real-time balance estimation based on actual consumption and custom utility rates.
 
-## 🛠️ Konfiguracja (Szybki Start)
+## 🛠️ Quick Start
 
-### 1. Przygotowanie środowiska
-Skopiuj plik `.env.example` do `.env` i uzupełnij swoje dane:
+### 1. Prerequisites
+Clone the repository and copy `.env.example` to `.env`. Fill in your credentials:
 ```env
-ISTA_EMAIL=TwojEmail
-ISTA_PASSWORD=TwojeHaslo
-ISTA_USER_GUID=OpcjonalnyGUID
+ISTA_EMAIL=your_email
+ISTA_PASSWORD=your_password
+ISTA_USER_GUID=optional_manual_guid
 
-# Firebase
+# Firebase Config
 FIREBASE_API_KEY=...
-# ... reszta kluczy z konsoli Firebase
+# ... other keys from Firebase Console
 ```
 
-### 2. Instalacja zależności
+### 2. Installation
 ```bash
 npm install
 npx playwright install msedge
 ```
 
-### 3. Uruchomienie lokalne
-Aby Dashboard był dostępny pod Twoim własnym adresem `http://heatmanager.darul`:
-1. Uruchom `setup_dns.ps1` jako Administrator.
-2. Uruchom `run_server.bat` (serwer wstanie w tle).
+### 3. Local Setup
+To access the dashboard via a custom local domain (`http://heatmanager.darul`):
+1. Run `setup_dns.ps1` as Administrator.
+2. Launch `run_server.bat` (starts the server in background mode).
 
-## 📁 Struktura Projektu
+## 📁 Project Structure
 
-- `/src`: Skrypty TypeScript (Scraper, Serwer Express, Logika Firebase).
-- `/public`: Frontend dashboardu (HTML/JS/CSS).
-- `run_server.bat`: Skrypt startowy (Auto-restart + Browser Launcher).
-- `stop_server.bat`: Szybkie zatrzymanie procesów tła.
+- `/src`: TypeScript source code (Scraper, Express Server, Firebase logic).
+- `/public`: Frontend dashboard assets (HTML/JS/CSS).
+- `run_server.bat`: Auto-restart startup script with browser launcher.
+- `stop_server.bat`: Utility to safely kill background processes.
 
-## 🔒 Bezpieczeństwo
+## 🔒 Security
 
-Aplikacja wykorzystuje **Firebase Authentication**. Tylko zalogowani użytkownicy mają dostęp do danych w Firestore. Pamiętaj, aby nigdy nie udostępniać pliku `.env` publicznie.
+This application uses **Firebase Authentication**. Only authorized users can access the Firestore database. **Never share your `.env` file publicly.**
 
 ---
-*Created with ❤️ for smarter home management.*
+*Created with ❤️ using **Antigravity***.
