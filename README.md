@@ -6,7 +6,7 @@ A professional energy monitoring system designed to bridge data from **IstaConne
 
 ## 🚀 Key Features
 
-- **Automated Scraper**: Powered by Playwright (with Stealth Plugin) to securely fetch consumption data for Heat, Hot Water, and Cold Water.
+- **Automated Scraper**: Powered by Playwright (with Stealth Plugin) to securely fetch consumption data for Heat, Hot Water, and Cold Water from web service ISTA Connect.
 - **Hybrid Architecture**:
   - **Cloud (Firebase)**: Secure data storage and global dashboard access from any device.
   - **Local Server**: A lightweight background process on your PC that handles data refreshes, keeping your credentials private and secure.
