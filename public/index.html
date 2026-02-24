@@ -199,7 +199,7 @@
             const auth = getAuth(app);
             const db = getFirestore(app);
 
-            if (['localhost', '127.0.0.1', 'heatmanager.darul'].includes(window.location.hostname)) {
+            if (['localhost', '127.0.0.1'].includes(window.location.hostname)) {
                 document.getElementById('btn-refresh').style.display = 'inline-block';
             }
 

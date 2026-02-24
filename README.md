@@ -32,9 +32,9 @@ npx playwright install msedge
 ```
 
 ### 3. Local Setup
-To access the dashboard via a custom local domain (`http://heatmanager.darul`):
-1. Run `setup_dns.ps1` as Administrator.
-2. Launch `run_server.bat` (starts the server in background mode).
+To run the dashboard locally:
+1. Launch `run_server.bat` (starts the server in background mode).
+2. Open `http://localhost` in your browser.
 
 ## 📁 Project Structure
 
